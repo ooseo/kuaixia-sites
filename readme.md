@@ -18,28 +18,28 @@
 
 1 安装最新宝塔面板（略）
 
-2 极速安装 （控制面板操作）
+2 极速安装
 - nginx 1.16.0 
 - php-7.2 
 - mysql 5.7.26 
 - redis 5.0.5
 
 3 PHP 配置
-- 安装 PHP 解密扩展 [safegou](https://github.com/ooseo/safegou) （登陆服务器操作）
-- 删除 PHP 禁用函数 （控制面板操作）
+- 安装 PHP 解密扩展 [safegou](https://github.com/ooseo/safegou)
+- 删除 PHP 禁用函数
 ```
 putenv
 proc_open
 shell_exec
 ```
-- 安装 PHP 其他扩展（控制面板操作）
+- 安装 PHP 其他扩展
 ```
 fileinfo
 redis
 yaf
 readline
 ```
-**Yaf扩展需要额外配置（控制面板操作）**
+**Yaf扩展需要额外配置**
 ```
 [yaf]
 extension=/www/server/php/72/lib/php/extensions/no-debug-non-zts-20170718/yaf.so
@@ -48,12 +48,12 @@ yaf.use_spl_autoload = 0
 yaf.use_namespace = 1
 ```
 
-4 数据库配置 （控制面板操作）
-- 创建数据库（utf8）
-- 上传数据库初始文件（init.sql）后导入
+4 数据库配置
+- 创建数据库
+- 上传数据库初始文件（ init.sql ）后导入
 
-5 创建站点（www.xxoo.com） 
-- 获取代码（登陆服务器操作）
+5 创建站点 
+- 获取代码
  
 ```
 cd /www/wwwroot/www.xxoo.com
@@ -61,7 +61,7 @@ git clone https://github.com/ooseo/kuaixia-sites.git
 cd kuaixia-sites
 php /usr/bin/composer install
 ```
-- 站点配置（控制面板操作）
+- 站点配置
 
 ```
 域名管理：添加站群所有域名的顶级和 www 二级域名
@@ -98,8 +98,8 @@ admin.domain = www.xxoo.com # 访问后台的域名
 
 ## 站群配置
 - 登陆后台，默认用户 admin 默认密码 qq12345
-- 数据管理导入站点数据（站点名称和站点核心词必须导入）
-- 添加目标站点（添加后批量采集）
+- 数据管理导入站点数据，站点名称和站点核心词必须导入。
+- 添加目标站点，添加后批量采集
 - 其他配置见系统内说明
 
 
