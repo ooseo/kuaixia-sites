@@ -1,0 +1,168 @@
+<div class="page-header">
+    <h1>
+        全局配置
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            系统配置
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="post" action="">
+            <input name="id" type="hidden" class="ace"   value="<?= $item['id'] ?? ''?>" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 检查蜘蛛UA <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="check_spider_ua" type="radio" class="ace"  <?php echo !empty($item['check_spider_ua']) &&  $item['check_spider_ua'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="check_spider_ua" type="radio" class="ace" <?php echo empty($item['check_spider_ua']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 检查蜘蛛IP <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="check_spider_ip" type="radio" class="ace"  <?php echo !empty($item['check_spider_ip']) &&  $item['check_spider_ip'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="check_spider_ip" type="radio" class="ace" <?php echo empty($item['check_spider_ip']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 自动更新目标站 </label>
+                <div class="col-sm-6">
+                    <div class="radio">
+                        <label>
+                            <input name="auto_update" type="radio" class="ace"  <?php echo !empty($item['auto_update']) &&  $item['auto_update'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="auto_update" type="radio" class="ace" <?php echo empty($item['auto_update']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 自动清理站点缓存 </label>
+                <div class="col-sm-6">
+                    <div class="radio">
+                        <label>
+                            <input name="auto_clean" type="radio" class="ace"  <?php echo !empty($item['auto_clean']) &&  $item['auto_clean'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="auto_clean" type="radio" class="ace" <?php echo empty($item['auto_clean']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 自动检测核心词 </label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="auto_check" type="radio" class="ace"  <?php echo !empty($item['auto_check']) &&  $item['auto_check'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="auto_check" type="radio" class="ace" <?php echo empty($item['auto_check']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> PC端跳转 <span class="red">*</span></label>
+                <div class="col-sm-6">
+                    <input class="col-sm-8" type="text" name="pc_landing" value="<?=$item['pc_landing'] ?? ''?>" placeholder="PC端跳转地址" />
+                    <label class="control-label landing_instructions" style="margin-left: 10px;"><i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 移动端跳转 <span class="red">*</span></label>
+                <div class="col-sm-6">
+                    <input class="col-sm-8" type="text" name="mobile_landing" value="<?=$item['mobile_landing'] ?? ''?>" placeholder="移动端跳转地址" />
+                    <label class="control-label landing_instructions" style="margin-left: 10px;"><i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 错误页面代码 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <textarea rows="8" type="text" name="error_page" class="col-sm-9" placeholder="错误页面代码"><?=$item['error_page'] ?? ''?></textarea>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 跳转页面代码 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <textarea rows="8" type="text" name="landing_page" class="col-sm-9" placeholder="落地页面代码"><?=$item['landing_page'] ?? ''?></textarea>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 统计代码 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <textarea rows="8" type="text" name="js_coding" class="col-sm-9" placeholder="统计代码或其他JS代码"><?=$item['js_coding'] ?? ''?></textarea>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                    <button class="btn btn-info commit" type="button">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        提交
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<script>
+    $('.landing_instructions').mouseenter(function (){
+        layer.tips('值为"error"时跳转到错误页面', $(this));
+    });
+    $(".commit").on("click", function(){
+        let data = {};
+        data.id =  $('input[name="id"]').val();
+        data.check_spider_ua =  $('input[name="check_spider_ua"]:checked').val();
+        data.check_spider_ip =  $('input[name="check_spider_ip"]:checked').val();
+        data.auto_update =  $('input[name="auto_update"]:checked').val();
+        data.auto_clean =  $('input[name="auto_clean"]:checked').val();
+        data.auto_check =  $('input[name="auto_check"]:checked').val();
+        data.pc_landing =  $('input[name="pc_landing"]').val();
+        data.mobile_landing =  $('input[name="mobile_landing"]').val();
+        data.error_page =  Base.encode($('textarea[name="error_page"]').val());
+        data.landing_page =  Base.encode($('textarea[name="landing_page"]').val());
+        data.js_coding =  Base.encode($('textarea[name="js_coding"]').val());
+        $.ajax({
+            type: 'POST',
+            url: '/config/system',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:5000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            }
+        });
+    });
+</script>

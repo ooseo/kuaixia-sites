@@ -1,0 +1,179 @@
+<div class="page-header">
+    <h1>
+        数据管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            小指数词列表
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+        <i class="ace-icon fa fa-check green"></i>
+        友情提示：导入小指数词文件时文本
+        <strong class="red">
+            内容一行一个
+        </strong>
+        ，只能是
+        <strong class="red">
+            txt
+        </strong>后缀文本
+    </div>
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h5 class="lighter">搜索</h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form class="form-horizontal" method="get" action="">
+                        <div class="row-fluid">
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="ID/文件名"/>
+                            </label>
+                            <label style="float: right;">
+                                <button type="submit" class="btn btn-inverse btn-small">
+                                    <i class="fa fa-search"></i>
+                                    搜索
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" style="width: 50px" class="center col-sm-1">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th class="center">ID</th>
+                        <th class="center">文件名</th>
+                        <th class="center">源文件名</th>
+                        <th class="center">路径</th>
+                        <th class="center">词数</th>
+                        <th class="center">上传时间</th>
+                        <th class="center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($items ?? [] as $k=>$item):?>
+                        <tr class="center">
+                            <td>
+                                <label class="pos-rel">
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td><?=$item['id']?></td>
+                            <td><?=$item['name']?></td>
+                            <td><?=$item['origin_name']?></td>
+                            <td><?= mb_strlen($item['path']) > 20 ? mb_substr($item['path'], 0, 20) . '...' : $item['path']?></td>
+                            <td><?=$item['count']?></td>
+                            <td><?=$item['created_at']?></td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-name="<?=$item['name']?>" >
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                        删除
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer no-margin-top">
+            <button class="btn btn-sm btn-info pull-left upload">
+                <i class="ace-icon fa fa-upload"></i>
+                导入
+            </button>
+            <button class="btn btn-sm btn-danger pull-left batchDelete" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                删除
+            </button>
+            <ul class="pagination pull-right no-margin">
+                <?=$page ?? "";?>
+            </ul>
+        </div>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<input type="file" name="file" id="file" onchange="upload()" style="display:none">
+<script>
+    $('table th input:checkbox').on('click', function () {
+        let that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox').each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    $(".delete").on("click", function(){
+        let id = $(this).attr('data-id');
+        let name = $(this).attr('data-name');
+        layer.confirm("你确认删除此标题: " + name + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/source/deleteWord', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $(".batchDelete").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        if (!ids) {
+            layer.msg("请选择需要操作的数据");
+            return false;
+        }
+        layer.confirm("你确认删除这些小指数词文件吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/source/deleteWord', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".upload").on('click', function() {
+        $("#file").trigger("click");
+    });
+
+    function upload(){
+        let formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        $.ajax({
+            url : '/source/words',//这里写你的url
+            type : 'POST',
+            data : formData,
+            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+            dataType: 'json',//这里是返回类型，一般是json,text等
+            clearForm: true,//提交后是否清空表单数据
+            success: function(res) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            }
+        });
+    }
+</script>

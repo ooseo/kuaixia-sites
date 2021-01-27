@@ -1,0 +1,261 @@
+<div class="page-header">
+    <h1>
+        数据管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            镜像站点
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h5 class="lighter">搜索</h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form class="form-horizontal" method="get" action="">
+                        <div class="row-fluid">
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="ID/地址"/>
+                            </label>
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <select name="status" class="form-control" style="width: 150px">
+                                    <option value="">所有状态</option>
+                                    <?php foreach (\App\Models\Dao\Target::$status_mapping as $k=>$v):?>
+                                        <option value="<?=$k?>"  <?= isset($conditions['status']) && $conditions['status'] == $k ? "selected" : ""?> ><?=$v?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </label>
+                            <label style="float: right;">
+                                <button type="submit" class="btn btn-inverse btn-small">
+                                    <i class="fa fa-search"></i>
+                                    搜索
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center" style="width: 50px" class="center col-sm-1">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th class="center">ID</th>
+                        <th class="center">地址</th>
+                        <th class="center">标题</th>
+                        <th class="center">编码</th>
+                        <th class="center">状态</th>
+                        <th class="center">采集时间</th>
+                        <th class="center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($items ?? [] as $k=>$item):?>
+                        <tr class="center">
+                            <td>
+                                <label class="pos-rel">
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td><?=$item['id']?></td>
+                            <td><a href="<?=$item['url']?>" target="_blank"><?=$item['url']?></a></td>
+                            <td><span class="title_instructions" data-title="<?=$item['title']?>"><?=mb_strlen($item['title']) > 10 ? mb_substr($item['title'], 0, 10) . '...' : $item['title'] ?></span></td>
+                            <td><?=$item['encoding']?></td>
+                            <td>
+                                <?php if($item['status'] == App\Models\Dao\Target::STATUS_CLOSE):?>
+                                    <span class="label label-pink arrowed"><?=App\Models\Dao\Target::$status_mapping[$item['status']]?></span>
+                                <?php elseif($item['status'] == App\Models\Dao\Target::STATUS_DONE):?>
+                                    <span class="label label-info arrowed"><?=App\Models\Dao\Target::$status_mapping[$item['status']]?></span>
+                                <?php else:?>
+                                    <span class="label label-default arrowed"><?=App\Models\Dao\Target::$status_mapping[$item['status']]?></span>
+                                <?php endif;?>
+                            </td>
+                            <td><?=$item['updated_at']?></td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button  class="btn btn-xs btn-success edit" data-id="<?=$item['id']?>">
+                                        <i class="ace-icon fa fa-edit bigger-120"></i>
+                                        编辑
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button  class="btn btn-xs btn-primary collect" data-id="<?=$item['id']?>"  data-url="<?=$item['url']?>">
+                                        <i class="ace-icon fa fa-cloud-download bigger-120"></i>
+                                        采集
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-url="<?=$item['url']?>" >
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                        删除
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer no-margin-top">
+            <button class="btn btn-sm btn-success pull-left add">
+                <i class="ace-icon fa fa-plus"></i>
+                添加目标站
+            </button>
+            <button class="btn btn-sm btn-pink pull-left batchSource" data-dismiss="modal">
+                <i class="ace-icon fa fa-folder"></i>
+                清理资源
+            </button>
+            <button class="btn btn-sm btn-danger pull-left batchDelete" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                批量删除
+            </button>
+            <ul class="pagination pull-right no-margin">
+                <?=$page ?? "";?>
+            </ul>
+        </div>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<div class="col-lg-6">
+    <div id="targetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="exampleModalLabel" class="modal-title"></h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="form-horizontal">
+                        <div class="row-fluid">
+                            <label class="col-sm-2 control-label no-padding-right" style="margin-top:10px;"> 站点地址: </label>
+                            <div class="col-sm-10">
+                                <textarea  id="targets" rows=6 name="targets" class="col-sm-9" style="margin-top:10px; margin-left:12px;" placeholder="必须携带http或https"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="row-fluid">
+                            <label class="col-sm-2 control-label no-padding-right"></label>
+                            <div class="col-sm-10">
+                                <label style="color: red;margin-top:10px; margin-left:12px;">  格式：https://www.dawang.com，支持批量，换行分割 </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">关闭</button>
+                    <button type="button" class="btn btn-info" onclick="add();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.title_instructions').mouseenter(function (){
+        layer.tips($(this).attr('data-title'), $(this));
+    });
+    $('table th input:checkbox').on('click', function () {
+        let that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox').each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+    function add() {
+        let targets = $("#targets").val();
+        $("#targetModal").modal("hide");
+        $.post('/target/index', {targets:targets}, function(res){
+            if(res.code !== 0){
+                layer.msg(res.message, {time:3000});
+            }else{
+                layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+            }
+        });
+    }
+    $(".add").on("click", function(){
+        $("#titles").val('');
+        $(".modal-title").html('添加目标站');
+        $("#targetModal").modal("show");
+    });
+
+    $(".edit").on("click", function(){
+        window.location.href = '/target/edit?id=' + $(this).attr('data-id');
+    });
+
+    $(".collect").on("click", function(){
+        let id = $(this).attr('data-id');
+        let url = $(this).attr('data-url');
+        layer.confirm("采集将会更新此站点: " + url + " 请确认", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/target/collect', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".delete").on("click", function(){
+        let id = $(this).attr('data-id');
+        let url = $(this).attr('data-url');
+        layer.confirm("你确认删除此站点: " + url + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/target/delete', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000, end:function (){location.href="/sites/mapping?url=" + res.data.url;}});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $(".batchDelete").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        if (!ids) {
+            layer.msg('请选择需要操作的站点');
+            return false;
+        }
+        let lid = ids.split(',').length;
+        layer.confirm("你确认删除 " + lid + " 个站点吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/target/delete', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000, end:function (){location.href="/sites/mapping?url=" + res.data.url;}});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $(".batchSource").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        if (!ids) {
+            layer.msg("请选择需要操作的站点");
+            return false;
+        }
+        let lid = ids.split(',').length;
+        layer.confirm("你确认清理 " + lid + " 个站点的资源吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/target/source', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+</script>

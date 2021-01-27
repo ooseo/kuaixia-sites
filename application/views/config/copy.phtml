@@ -1,0 +1,256 @@
+<div class="page-header">
+    <h1>
+        全局配置
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            镜像配置
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="post" action="">
+            <input name="id" type="hidden" class="ace"   value="<?= $item['id'] ?? ''?>" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 主域重定向 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="base_domain_redirect" type="radio" class="ace"  <?php echo !empty($item['base_domain_redirect']) &&  $item['base_domain_redirect'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="base_domain_redirect" type="radio" class="ace" <?php echo empty($item['base_domain_redirect']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 内容转繁体 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="inter_big" type="radio" class="ace"  <?php echo !empty($item['inter_big']) &&  $item['inter_big'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="inter_big" type="radio" class="ace" <?php echo empty($item['inter_big']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">TDK转繁体 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="inter_tdk_big" type="radio" class="ace"  <?php echo !empty($item['inter_tdk_big']) &&  $item['inter_tdk_big'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="inter_tdk_big" type="radio" class="ace" <?php echo empty($item['inter_tdk_big']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> TDK实体编码 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="inter_tdk_entity" type="radio" class="ace"  <?php echo !empty($item['inter_tdk_entity']) &&  $item['inter_tdk_entity'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="inter_tdk_entity" type="radio" class="ace" <?php echo empty($item['inter_tdk_entity']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 模版干扰 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="inter_template" type="radio" class="ace"  <?php echo !empty($item['inter_template']) &&  $item['inter_template'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="inter_template" type="radio" class="ace" <?php echo empty($item['inter_template']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> Ascii码干扰 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="is_ascii" type="radio" class="ace"  <?php echo !empty($item['is_ascii']) &&  $item['is_ascii'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="is_ascii" type="radio" class="ace" <?php echo empty($item['is_ascii']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 内页上词 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="is_inpage_word" type="radio" class="ace"  <?php echo !empty($item['is_inpage_word']) &&  $item['is_inpage_word'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="is_inpage_word" type="radio" class="ace" <?php echo empty($item['is_inpage_word']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 叠词数量 <span class="red">*</span></label>
+                <div class="col-sm-6">
+                    <input class="col-sm-4" type="number" name="inter_word_num" value="<?=$item['inter_word_num'] ?? 0?>" placeholder="叠词数量" />
+                    <label class="control-label" style="margin-left: 10px;"><span class="red" >最多5000，数据为小指数词</span></label>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 链轮数量 <span class="red">*</span></label>
+                <div class="col-sm-6">
+                    <input class="col-sm-4" type="number" name="inter_side_link_num" value="<?=$item['inter_side_link_num'] ?? 0?>" placeholder="链轮数量" />
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 标题模版 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <input class="col-sm-6" type="text" name="preg_title" value="<?=$item['preg_title'] ?? ''?>" placeholder="{title} - 视频 - 影视资讯 - 我爱我家网" />
+                    <button type="button" class="btn btn-danger btn-xs info" style="margin-left: 10px;">变量说明</button>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 关键词模版 </label>
+                <div class="col-sm-9">
+                    <input class="col-sm-6" type="text" name="preg_keywords" value="<?=$item['preg_keywords'] ?? ''?>" placeholder="{title},{keyword1}" />
+                    <label class="control-label dk_instructions" style="margin-left: 10px;"><i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 描叙模版 </label>
+                <div class="col-sm-9" id="preg_description">
+                    <input class="col-sm-8" type="text" name="preg_description" value="<?=$item['preg_description'] ?? ''?>" placeholder="「{title}」我爱我家网，{description1}{keyword1}{description2}" />
+                    <label class="control-label dk_instructions" style="margin-left: 10px;"><i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                    <button class="btn btn-info commit" type="button">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        提交
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<div class="col-lg-6">
+    <div id="pregModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="exampleModalLabel" class="modal-title">变量说明</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="form-horizontal">
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {name}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">原站名称(固定)</span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {keyword}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">原站核心词(固定)</span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {other1}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">随机核心词(数字可以任意更换相同数字即相同内容)</span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {minword1}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">随机小指数词(数字可以任意更换相同数字即相同内容)</span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {description1}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">随机句子(数字可以任意更换相同数字即相同内容)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">关闭</button>
+                    <button type="button" class="btn btn-info" onclick="add();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.dk_instructions').mouseenter(function (){
+        layer.tips('若无特殊要求建议不用填写', $(this));
+    });
+    $('.info').on('mouseenter',function (){
+        $("#pregModal").modal("show");
+    });
+    $(".commit").on("click", function(){
+        let data = {};
+        data.id =  $('input[name="id"]').val();
+        data.base_domain_redirect =  $('input[name="base_domain_redirect"]:checked').val();
+        data.inter_big =  $('input[name="inter_big"]:checked').val();
+        data.inter_tdk_big =  $('input[name="inter_tdk_big"]:checked').val();
+        data.inter_tdk_entity =  $('input[name="inter_tdk_entity"]:checked').val();
+        data.inter_template =  $('input[name="inter_template"]:checked').val();
+        data.is_ascii =  $('input[name="is_ascii"]:checked').val();
+        data.is_inpage_word =  $('input[name="is_inpage_word"]:checked').val();
+        data.rand_tdk =  $('input[name="rand_tdk"]:checked').val();
+        data.preg_title =  $('input[name="preg_title"]').val();
+        data.preg_keywords =  $('input[name="preg_keywords"]').val();
+        data.preg_description =  $('input[name="preg_description"]').val();
+        data.inter_word_num =  $('input[name="inter_word_num"]').val();
+        data.inter_side_link_num =  $('input[name="inter_side_link_num"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '/config/copy',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:5000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>快侠镜像站群管理系统</title>
+    <meta name="description" content="User login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="/alocal/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/alocal/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/alocal/components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="/alocal/assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="/alocal/assets/css/ace.css" />
+    <link rel="stylesheet" href="/alocal/assets/css/ace-rtl.css" />
+    <link rel="stylesheet" href="/alocal/components/layer_mobile/need/layer.css" />
+</head>
+<style>
+    .vcode{
+        display: inline-block!important;
+        margin-right: 17px;
+    }
+</style>
+<body class="login-layout"  onkeydown="isKeyPressed(event)">
+<div class="main-container">
+    <div class="main-content">
+        <div class="row" style="margin-top: 180px">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <img style="width:35px;margin-top: -5px" src="/alocal/assets/images/logo.png">
+                            <span class="white"><b style="color: #cddc39;text-align: center">快侠镜像站群</b> 管理系统</span>
+                        </h1>
+                        <h4 class="blue" id="id-company-text">&copy; 2021 V1.0.0</h4>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="position-relative">
+                        <div id="login-box" class="login-box visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header blue lighter bigger">
+                                        <i class="ace-icon fa fa-coffee green"></i>
+                                        请输入您的信息
+                                    </h4>
+                                    <div class="space-6"></div>
+                                    <form>
+                                        <fieldset>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <input type="text" id="username" class="form-control" autocomplete="off" placeholder="用户名" value="" />
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <input type="password" id="password" class="form-control" autocomplete="off" placeholder="密码" value="" />
+                                                    <i class="ace-icon fa fa-lock"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right width-55 vcode">
+                                                    <input type="text" id="code" class="form-control" autocomplete="off" placeholder="验证码" value="" />
+                                                    <i class="ace-icon fa fa-cog"></i>
+                                                </span>
+                                                <img src="/login/code" id="imgVcode" onclick="resetImg(false)" />
+                                            </label>
+                                            <div class="space"></div>
+                                            <div class="clearfix">
+                                                <button type="reset" class="width-30 pull-left btn btn-sm">
+                                                    <i class="ace-icon fa fa-refresh"></i>
+                                                    <span class="bigger-110">重置</span>
+                                                </button>
+                                                <button type="button" onclick="login()" class="width-65 pull-right btn btn-sm btn-primary">
+                                                    <i class="ace-icon fa fa-key"></i><span class="bigger-110">登陆</span>
+                                                </button>
+                                            </div>
+                                            <div class="space-4"></div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/alocal/components/jquery/dist/jquery.js"></script>
+<script src="/alocal/components/layer/layer.js"></script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='/alocal/assets/components/_mod/jquery.mobile.custom/jquery.mobile.custom.js'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    function login() {
+        let username = $('#username').val();
+        let password = $('#password').val();
+        let code = $('#code').val();
+        $.ajax({
+            type: "post",
+            url: "/login/index",
+            data: {username:username, password:password, code:code},
+            success:function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000, end:function (){resetImg(false);}});
+                }else{
+                    layer.msg(res.message, {time:1000, end:function (){location.href="/index/index";}});
+                }
+            }
+        });
+    }
+
+    function checkUsername(username){
+        let reg=/^[\w]{6,20}$/;
+        if(!reg.test(username)){
+            layer.msg('用户名只能是字母数字和下划线，长度6-20位');
+            return false;
+        }
+        return true;
+    }
+
+    function isKeyPressed(event) {
+        if(event.keyCode === 13) {
+            login();
+        }
+    }
+
+    function resetImg(is_register){
+        let imgVcode;
+        if (!is_register) {
+            imgVcode = document.getElementById("imgVcode");
+        } else {
+            imgVcode = document.getElementById("register_imgVcode");
+        }
+        imgVcode.src = "/login/code?d="+new Date().getTime();
+    }
+</script>
+</body>
+</html>

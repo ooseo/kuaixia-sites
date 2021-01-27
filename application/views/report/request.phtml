@@ -1,0 +1,92 @@
+<div class="page-header" xmlns="http://www.w3.org/1999/html">
+    <h1>
+        报表管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            访问数据
+        </small>
+    </h1>
+</div>
+<style>
+    a{text-decoration:none}
+    a:hover{text-decoration:none}
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h5 class="lighter">搜索</h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form class="form-horizontal" method="get" action="">
+                        <div class="row-fluid">
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="host" value="<?= $conditions['host'] ?? '' ?>" placeholder="域名"/>
+                            </label>
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="UA"/>
+                            </label>
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <select name="spider_type" class="form-control" style="width: 150px">
+                                    <option value="">所有类型</option>
+                                    <?php foreach (\App\Models\Dao\Spider::$spider_type_mapping as $k=>$v):?>
+                                        <option value="<?=$k?>"  <?= isset($conditions['spider_type']) && $conditions['spider_type'] == $k ? "selected" : ""?> ><?=$v?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </label>
+                            <label style="float: right;">
+                                <button type="submit" class="btn btn-inverse btn-small">
+                                    <i class="fa fa-search"></i>
+                                    搜索
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="center">访问域名</th>
+                        <th class="center">UA</th>
+                        <th class="center">来源IP</th>
+                        <th class="center">蜘蛛类型</th>
+                        <th class="center">访问时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($items ?? [] as $k=>$item):?>
+                        <tr class="center">
+                            <td><?=$item['host']?></td>
+                            <td><a href="javascript:void(0)" class="ua_instructions" data-ua="<?= $item['ua']?>"><?= mb_strlen($item['ua']) > 60 ? mb_substr($item['ua'], 0, 60) . '...' : $item['ua']?></a></td>
+                            <td><?=$item['ip']?></td>
+                            <td>
+                                <?= $item['spider_type'] ? ($item['is_spider_ip'] ? \App\Models\Dao\Spider::$spider_type_mapping[$item['spider_type']] : '<span class="red spider_instructions">' . \App\Models\Dao\Spider::$spider_type_mapping[$item['spider_type']]. '</span>')  : '非蜘蛛访问' ?>
+                            </td>
+                            <td><?=$item['created_at']?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer no-margin-top">
+            <ul class="pagination pull-right no-margin">
+                <?=$page ?? "";?>
+            </ul>
+        </div>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<script>
+    $('.ua_instructions').mouseenter(function (){
+        layer.tips($(this).attr('data-ua'), $(this), {tips:[4,'#78BA32'],time:5000});
+    });
+    $('.spider_instructions').mouseenter(function (){
+        layer.tips('怀疑为模拟蜘蛛，如果是真实蜘蛛请在蜘蛛配置中添加此IP', $(this), {tips:[2,'red'],time:5000});
+    });
+</script>

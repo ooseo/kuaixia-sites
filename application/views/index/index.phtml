@@ -1,0 +1,149 @@
+<div class="page-header">
+    <h1>
+        仪表盘
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            使用说明
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="alert alert-block alert-success">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <i class="ace-icon fa fa-check green"></i>
+            欢迎使用
+            <strong class="red">
+                快侠镜像站群
+            </strong>管理系统。请勿用于非法行业、授权使用请谨慎、有任何疑问请加QQ群：510168
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="row header smaller lighter blue">
+                    <span class="col-xs-6"> 使用说明 </span><!-- /.col -->
+                </h3>
+                <!-- #section:elements.accordion -->
+                <div id="accordion" class="accordion-style1 panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true">
+                                    <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    &nbsp;免责声明
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" id="collapseOne" aria-expanded="true" style="">
+                            <div class="panel-body">
+                                <div class="col-xs-12">
+                                    <ul class="list-unstyled spaced">
+                                        <li class="text-warning bigger-110 orange">
+                                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                            本程序为快侠技术组定制内测版本，不得在生产环境中部署
+                                        </li>
+                                        <li class="text-warning bigger-110 orange">
+                                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                            任何用于非法途径的行为，作者予以谴责，不承担任何责任
+                                        </li>
+                                        <li class="text-warning bigger-110 orange">
+                                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                            技术是把双刃剑，请各位非授权用户耗子尾汁
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false">
+                                    <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    &nbsp;系统信息
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseTwo" aria-expanded="false" style="height: 0px;">
+                            <div class="panel-body">
+                                <div class="col-xs-12">
+                                    <ul class="list-unstyled spaced">
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            系统类型: <?= php_uname('s')?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            系统型号: <?= php_uname('r')?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            PHP版本: <?= PHP_VERSION?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            Zend版本: <?= Zend_Version()?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            PHP安装路径: <?= DEFAULT_INCLUDE_PATH?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            服务器IP: <?= GetHostByName($_SERVER['SERVER_NAME'])?>
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-circle green"></i>
+                                            客户端IP: <?= $_SERVER['REMOTE_ADDR']?>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
+                                    <i class="bigger-110 ace-icon fa fa-angle-down" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    &nbsp;如何开始
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseThree" aria-expanded="false" style="height: 0px;">
+                            <div class="panel-body">
+                                <div class="col-xs-12">
+                                    <ul class="list-unstyled spaced">
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 1 数据准备：在数据管理中导入相应的数据（网站名称，核心词，链轮词，描叙，小指数词）
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 2 目标站点：在镜像管理中添加目标站并采集目标站点内容（可以自动更新）
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 3 系统配置：在系统配置中根据需求保存好系统配置
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 4 批量建站：在站点管理中批量建站，随机分配网站名称，标题，描叙，小指数词并保存和目标站点的映射关系
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 5 自动化：在任务管理中配置自动采集目标站，小指数词周期和自动更新缓存周期
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

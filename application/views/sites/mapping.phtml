@@ -1,0 +1,230 @@
+<div class="page-header" xmlns="http://www.w3.org/1999/html">
+    <h1>
+        站点管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            站点映射
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="alert alert-block alert-success">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <i class="ace-icon fa fa-check green"></i>
+            友情提示：映射将会
+            <strong class="red">
+                删除首页缓存
+            </strong>， 访问或批量打开站点将会
+            <strong class="red">
+                创建首页缓存
+            </strong>（生成新的TDK，链轮，小指数词）
+        </div>
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h5 class="lighter">搜索</h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form class="form-horizontal" method="get" action="">
+                        <div class="row-fluid">
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="站点ID/域名" />
+                            </label>
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input style="width: 250px" type="text" name="url" value="<?= $conditions['url'] ?? '' ?>" placeholder="目标站地址" />
+                            </label>
+                            <label class="pos-rel" style="margin-top: 7px">
+                                <input type="checkbox" name="wait_mapping" <?php echo !empty($conditions['wait_mapping']) ? 'checked' : '' ?> class="ace">
+                                <span class="lbl"> 待映射站点</span>
+                            </label>
+                            <label style="float: right;">
+                                <button type="submit" class="btn btn-inverse btn-small">
+                                    <i class="fa fa-search"></i>
+                                    搜索
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px" class="center col-sm-1">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th class="center" style="width: 60px">站点ID</th>
+                        <th class="center">站点域名</th>
+                        <th class="center">站点标题</th>
+                        <th class="center">目标站地址</th>
+                        <th class="center">目标站编码</th>
+                        <th class="center">映射时间</th>
+                        <th class="center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($items ?? [] as $k=>$item):?>
+                        <tr class="center">
+                            <td>
+                                <label class="pos-rel">
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-url="http://<?= $item['domain']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td><?=$item['id']?></td>
+                            <td><a href="http://<?=$item['domain']?>" target="_blank"><?=$item['domain']?></a></td>
+                            <td><span class="keyword_instructions" data-keyword="<?=$item['keyword']?>"><?=mb_strlen($item['keyword']) > 10 ? mb_substr($item['keyword'], 0, 10) . '...' : $item['keyword'] ?></span></td>
+                            <?php
+                                $url = str_replace('https://', '', $item['url']);
+                                $url = str_replace('http://', '', $url);
+                            ?>
+                            <td><a href="<?=$item['url']?>" class="url_instructions" data-url="<?=$item['url']?>"target="_blank"><?=mb_strlen($url) > 15 ? mb_substr($url, 0, 15) . '...' : $url ?></a></td>
+                            <td><?=$item['encoding']?></td>
+                            <td><?=$item['mapping_at']?></td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-primary map" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                        <i class="ace-icon fa fa-exchange bigger-120"></i>
+                                        映射
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-danger cache" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                        删除缓存
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer no-margin-top">
+            <button class="btn btn-sm btn-primary pull-left batchMapping" data-dismiss="modal">
+                <i class="ace-icon fa fa-exchange"></i>
+                批量映射
+            </button>
+            <button class="btn btn-sm btn-success pull-left open" data-dismiss="modal">
+                <i class="ace-icon fa fa-share"></i>
+                批量打开
+            </button>
+            <button class="btn btn-sm btn-danger pull-left batchCache" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                删除缓存
+            </button>
+            <ul class="pagination pull-right no-margin">
+                <?=$page ?? "";?>
+            </ul>
+        </div>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<script>
+    $('.keyword_instructions').mouseenter(function (){
+        layer.tips($(this).attr('data-keyword'), $(this));
+    });
+    $('.url_instructions').mouseenter(function (){
+        layer.tips($(this).attr('data-url'), $(this));
+    });
+    $('table th input:checkbox').on('click', function () {
+        let that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox').each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+    $(".map").on("click", function(){
+        let id = $(this).attr('data-id');
+        let domain = $(this).attr('data-domain');
+        layer.confirm("映射将会更新此站点: " + domain + " 的映射关系，请确认", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/map', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $(".cache").on("click", function(){
+        let id = $(this).attr('data-id');
+        let domain = $(this).attr('data-domain');
+        layer.confirm("你确认删除站点: " + domain + " 的缓存吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/cache', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $('.open').on('click', function(){
+        let urls = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).attr('data-url');
+        });
+        if (!urls.length) {
+            layer.msg("请选择需要操作的站点");
+            return false;
+        }
+        for(let i=0;i< urls.length;i++ ){
+            window.open(urls[i]);
+        }
+    });
+    $(".batchMapping").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        let msg;
+        if(!ids){
+            msg = "你确认重置所有站点的映射关系吗？";
+            ids = '0';
+        }else{
+            let lid = ids.split(',').length;
+            msg = "你确认重置 " + lid + " 个站点的映射关系吗？"
+        }
+        layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/map', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".batchCache").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        let msg;
+        if(!ids){
+            msg = "你确认删除所有站点的首页缓存吗？";
+            ids = '0';
+        }else{
+            let lid = ids.split(',').length;
+            msg = "你确认删除 " + lid + " 个站点的首页缓存吗？"
+        }
+        layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/cache', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+</script>

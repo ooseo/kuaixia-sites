@@ -1,0 +1,9 @@
+.DS_Store
+config/application.product.ini
+composer.lock
+.idea/
+vendor/
+data/
+logs/
+
+

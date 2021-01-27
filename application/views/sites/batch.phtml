@@ -1,0 +1,67 @@
+<div class="page-header">
+    <h1>
+        站点管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            添加站点
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+        <i class="ace-icon fa fa-check green"></i>
+        友情提示：批量添加时站点的
+        <strong class="red">
+            名称，核心词，目标站
+        </strong>将随机分配
+    </div>
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="post" action="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">站点域名 <span class="red">*</span></label>
+                <div class="col-sm-9">
+                    <textarea rows="5" type="text" name="domains" class="col-sm-6"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"></label>
+                <div class="col-sm-9">
+                    <label class="control-label no-padding-left">域名格式: <span style="color: red"> www.baidu.com 一行一个</span> </label>
+                </div>
+            </div>
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                    <button class="btn btn-info commit" type="button">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        提交
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<script>
+    $(".commit").on("click", function(){
+        let domains = $('textarea').val();
+        if(domains === ''){
+            layer.msg('批量建站域名不能为空');
+            return false;
+        }
+        $.post('/sites/batch', {domains:domains}, function(res){
+            if(res.code !== 0){
+                layer.msg(res.message, {time:3000});
+            }else{
+                layer.msg(res.message, {time:2000, end:function (){location.href="/sites/index";}});
+            }
+        });
+    })
+</script>
+

@@ -1,0 +1,98 @@
+<div class="page-header">
+    <h1>
+        全局配置
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            安全配置
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal" method="post" action="">
+            <input name="id" type="hidden" class="ace"   value="<?= $item['id'] ?? ''?>" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 限制所有访问 </label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="close_sites" type="radio" class="ace"  <?php echo !empty($item['close_sites']) &&  $item['close_sites'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="close_sites" type="radio" class="ace" <?php echo empty($item['close_sites']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 限制POST请求 </label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="close_post" type="radio" class="ace"  <?php echo !empty($item['close_post']) &&  $item['close_post'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="close_post" type="radio" class="ace" <?php echo empty($item['close_post']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 限制URI长度 </label>
+                <div class="col-sm-9">
+                    <div class="col-sm-9">
+                        <input class="col-sm-6" type="text" name="uri_length" value="<?=$item['uri_length'] ?? ''?>" placeholder="允许最长的访问地址路径长度" />
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> IP限制 </label>
+                <div class="col-sm-9">
+                    <div class="col-sm-9">
+                        <textarea rows="8" type="text" name="close_ips" id="close_ips" class="col-sm-9" placeholder="一行一个，后两位支持匹配（192.168.*.*）"><?=$item['close_ips'] ?? ''?></textarea>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        重置
+                    </button>
+                    <button class="btn btn-info commit" type="button">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        提交
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<script>
+    $(".commit").on("click", function(){
+        let data = {};
+        data.id =  $('input[name="id"]').val();
+        data.close_sites =  $('input[name="close_sites"]:checked').val();
+        data.close_post =  $('input[name="close_post"]:checked').val();
+        data.uri_length =  $('input[name="uri_length"]').val();
+        data.close_ips =  $("#close_ips").val();
+        $.ajax({
+            type: 'POST',
+            url: '/config/safe',
+            data: data,
+            dataType: 'json',
+            success: function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:5000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            }
+        });
+    });
+</script>

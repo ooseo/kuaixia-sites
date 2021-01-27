@@ -1,0 +1,247 @@
+<div class="page-header" xmlns="http://www.w3.org/1999/html">
+    <h1>
+        站点管理
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            站点列表
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h5 class="lighter">搜索</h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <form class="form-horizontal" method="get" action="">
+                        <div class="row-fluid">
+                            <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
+                                <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="站点ID/域名"/>
+                            </label>
+                            <label style="float: right;">
+                                <button type="submit" class="btn btn-inverse btn-small">
+                                    <i class="fa fa-search"></i>
+                                    搜索
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="simple-table" class="table  table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px" class="center col-sm-1">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th class="center" style="width: 60px">站点ID</th>
+                        <th class="center">站点域名</th>
+                        <th class="center">站点名称</th>
+                        <th class="center">站点核心词</th>
+                        <th class="center">状态</th>
+                        <th class="center">创建时间</th>
+                        <th class="center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($items ?? [] as $k=>$item):?>
+                        <tr class="center">
+                            <td>
+                                <label class="pos-rel">
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td><?=$item['id']?></td>
+                            <td><a href="http://<?=$item['domain']?>" class="domain_instructions" data-domain="<?=$item['domain']?>" target="_blank"><?=mb_strlen($item['domain'])>15 ? (mb_substr($item['domain'], 0, 15) . '...') : $item['domain']?></a></td>
+                            <td><?=$item['name']?></td>
+                            <td><?=$item['keyword']?></td>
+                            <td class="hidden-480 center">
+                                <label>
+                                    <input  name="status" onclick="statusChange(<?=$item['id']?>, <?= $item['status'] ? 0 : -1?>)"  <?= $item['status'] ? '' : 'checked'; ?> class="ace ace-switch ace-switch-5" type="checkbox">
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td><?=$item['created_at']?></td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-info edit" data-p='<?=json_encode($item, JSON_NUMERIC_CHECK|JSON_UNESCAPED_UNICODE)?>'>
+                                        <i class="ace-icon fa fa-edit bigger-120"></i>
+                                        编辑
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                        删除
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer no-margin-top">
+            <button class="btn btn-sm btn-success pull-left batchKeyword" data-dismiss="modal">
+                <i class="ace-icon fa fa-refresh"></i>
+                重置核心词
+            </button>
+            <button class="btn btn-sm btn-danger pull-left batchDelete" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                删除站点
+            </button>
+            <ul class="pagination pull-right no-margin">
+                <?=$page ?? "";?>
+            </ul>
+        </div>
+        <div class="hr hr-18 dotted hr-double"></div>
+    </div>
+</div>
+<div class="col-lg-6">
+    <div id="siteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="exampleModalLabel" class="modal-title">添加站点</h4>
+                </div>
+                <div class="modal-body row">
+
+                    <div class="form-horizontal">
+                        <input type="hidden" id="id" name="id" value="" />
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> 站点域名: </label>
+                            <div class="col-sm-9">
+                                <input type="text" id="domain" name="domain" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" disabled/>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> 站点名称: </label>
+                            <div class="col-sm-9">
+                                <input type="text" id="name" name="name" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" />
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> 站点核心词: </label>
+                            <div class="col-sm-9">
+                                <input type="text" id="keyword" name="keyword" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">关闭</button>
+                    <button type="button" class="btn btn-info" onclick="add();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.domain_instructions').mouseenter(function (){
+        layer.tips($(this).attr('data-domain'), $(this));
+    });
+    $('table th input:checkbox').on('click', function () {
+        let that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox').each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    $(".edit").on("click", function(){
+        clearModal($('.modal-body'));
+        let data = $.parseJSON($(this).attr('data-p'));
+        $("#id").val(data.id);
+        $("#domain").val(data.domain);
+        $("#name").val(data.name);
+        $("#keyword").val(data.keyword);
+        $(".modal-title").html('编辑站点');
+        $("#siteModal").modal("show");
+    });
+    $(".delete").on("click", function(){
+        let domain = $(this).attr('data-domain');
+        let id = $(this).attr('data-id');
+        layer.confirm("你确认删除此站点: " + domain + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/delete', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".batchKeyword").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        let msg;
+        if(!ids){
+            msg = "你确认重置所有站点的核心词吗？";
+            ids = '0';
+        }else{
+            let lid = ids.split(',').length;
+            msg = "你确认重置 " + lid + " 个站点的核心词吗？"
+        }
+        layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/keyword', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".batchDelete").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        if (!ids) {
+            layer.msg("请选择需要操作的站点");
+            return false;
+        }
+        let lid = ids.split(',').length;
+        layer.confirm("你确认删除 " + lid + " 个站点吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/delete', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    function add() {
+        let id = $("#id").val();
+        let domain = $("#domain").val();
+        let name = $("#name").val();
+        let keyword = $("#keyword").val();
+        $("#siteModal").modal("hide");
+        $.post('/sites/add', {id:id, domain:domain, name:name, keyword:keyword}, function(res){
+            if(res.code !== 0){
+                layer.msg(res.message, {time:3000});
+            }else{
+                layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+            }
+        });
+    }
+
+    function statusChange(id, status){
+        $.post('/sites/save', {id:id, status:status}, function(){});
+    }
+</script>

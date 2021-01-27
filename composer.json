@@ -1,0 +1,32 @@
+{
+  "description": "Sites",
+  "name": "dafeiji/sites",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=7.0.0",
+    "monolog/monolog": "^1.26.0",
+    "illuminate/database": "v5.2.43",
+    "illuminate/events": "v5.2.43",
+    "illuminate/validation": "v5.2.45",
+    "ext-gd": "*",
+    "ext-curl": "*",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-simplexml": "*"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "App\\" : "application/",
+      "App\\Models\\" : "application/models/",
+      "App\\Models\\Dao\\" : "application/models/dao/",
+      "App\\Models\\Bll\\" : "application/models/bll/",
+      "App\\System\\" : "application/system/",
+      "App\\Tools\\" : "application/tools/",
+      "App\\Cron\\" : "application/cron/"
+    }
+  },
+  "require-dev": {
+    "composer/composer": "1.10.19"
+  }
+}
