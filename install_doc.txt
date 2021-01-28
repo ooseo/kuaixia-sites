@@ -125,10 +125,19 @@
 
 1 站群配置
 	后台默认账户 admin 密码 qq123321 安装完后自行修改
-	导入的站点数据可以根据自己的业务需求准备
 	
-
-2 自动化任务部署
+	宝塔站点域名中添加站群域名
+	*.20383.cn
+        *.zhuaishou.com
+        *.aipaila.com
+        *.chadomain.com
+	
+	配置计划任务一般三天执行一次
 
 	php /www/wwwroot/www.zhupi.net/kuaixia-sites/public/cli.php AutoCleanCache
-	php /www/wwwroot/www.zhupi.net/kuaixia-sites/public/cli.php AutoUpdateTarget 
+	php /www/wwwroot/www.zhupi.net/kuaixia-sites/public/cli.php AutoUpdateTarget
+	
+	导入的站点数据可以根据自己的业务需求准备
+ 	目标站导入后先要执行采集，可以手动也可以自动
+
+	祝大家顺利
