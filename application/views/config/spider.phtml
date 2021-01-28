@@ -13,7 +13,7 @@
             <i class="ace-icon fa fa-times"></i>
         </button>
         <i class="ace-icon fa fa-check green"></i>
-        友情提示：系统检测蜘蛛IP时将匹配如下配置IP，非法IP系统会阻止访问
+        友情提示：系统检测蜘蛛IP时将匹配如下配置IP，非法IP系统会阻止访问。添加时注意<b class="red"> 蜘蛛IP，一行一个，后两位支持匹配</b>
     </div>
     <div class="col-xs-12">
         <form class="form-horizontal" method="post" action="">
@@ -21,25 +21,25 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"> 百度蜘蛛IP </label>
                 <div class="col-sm-9">
-                    <textarea rows="8" type="text" name="baiduspider" class="col-sm-9" placeholder="百度蜘蛛IP，一行一个，后两位支持匹配"><?=$item['baiduspider'] ?? ''?></textarea>
+                    <textarea rows="8" type="text" name="baiduspider" class="col-sm-6" placeholder="百度蜘蛛IP，一行一个，后两位支持匹配"><?=$item['baiduspider'] ?? ''?></textarea>
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"> 谷歌蜘蛛IP </label>
                 <div class="col-sm-9">
-                    <textarea rows="8" type="text" name="googlebot" class="col-sm-9" placeholder="谷歌蜘蛛IP，一行一个，后两位支持匹配"><?=$item['googlebot'] ?? ''?></textarea>
+                    <textarea rows="8" type="text" name="googlebot" class="col-sm-6" placeholder="谷歌蜘蛛IP，一行一个，后两位支持匹配"><?=$item['googlebot'] ?? ''?></textarea>
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"> 搜狗蜘蛛IP </label>
                 <div class="col-sm-9">
-                    <textarea rows="8" type="text" name="sogou" class="col-sm-9" placeholder="搜狗蜘蛛IP，一行一个，后两位支持匹配"><?=$item['sogou'] ?? ''?></textarea>
+                    <textarea rows="8" type="text" name="sogou" class="col-sm-6" placeholder="搜狗蜘蛛IP，一行一个，后两位支持匹配"><?=$item['sogou'] ?? ''?></textarea>
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"> 神马蜘蛛IP </label>
                 <div class="col-sm-9">
-                    <textarea rows="8" type="text" name="yisou" class="col-sm-9" placeholder="神马蜘蛛IP，一行一个，后两位支持匹配"><?=$item['yisou'] ?? ''?></textarea>
+                    <textarea rows="8" type="text" name="yisou" class="col-sm-6" placeholder="神马蜘蛛IP，一行一个，后两位支持匹配"><?=$item['yisou'] ?? ''?></textarea>
                 </div>
             </div><div class="space-4"></div>
             <div class="clearfix form-actions">

@@ -83,10 +83,28 @@
     </div>
 </div>
 <script>
+    let tips = 0;
     $('.ua_instructions').mouseenter(function (){
-        layer.tips($(this).attr('data-ua'), $(this), {tips:[4,'#78BA32'],time:5000});
+        let ua = slice($(this).attr('data-ua'))
+        tips = layer.tips(ua, $(this), {tips:[4,'#25a7a4'],time:0});
+    }).mouseout(function (){
+        layer.close(tips);
     });
+
     $('.spider_instructions').mouseenter(function (){
-        layer.tips('怀疑为模拟蜘蛛，如果是真实蜘蛛请在蜘蛛配置中添加此IP', $(this), {tips:[2,'red'],time:5000});
+        tips = layer.tips('怀疑为模拟蜘蛛，如果是真实蜘蛛请在蜘蛛配置中添加此IP', $(this), {tips:[2,'red'],time:5000});
+    }).mouseout(function (){
+        layer.close(tips);
     });
+
+    // tips 超出的问题
+    function slice(str){
+        let strArr = [];
+        let n = 30;
+        for (let i = 0, l = str.length; i < l/n; i++) {
+            let a = str.slice(n*i, n*(i+1));
+            strArr.push(a);
+        }
+        return strArr.join(' ');
+    }
 </script>

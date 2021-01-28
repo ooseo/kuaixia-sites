@@ -148,9 +148,13 @@
 </div>
 
 <script>
+    let tips = 0;
     $('.domain_instructions').mouseenter(function (){
-        layer.tips($(this).attr('data-domain'), $(this));
+        tips = layer.tips($(this).attr('data-domain'), $(this), {time:0});
+    }).mouseout(function (){
+        layer.close(tips);
     });
+
     $('table th input:checkbox').on('click', function () {
         let that = this;
         $(this).closest('table').find('tr > td:first-child input:checkbox').each(function () {

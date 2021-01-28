@@ -162,8 +162,11 @@
     </div>
 </div>
 <script>
+    let tips = 0;
     $('.title_instructions').mouseenter(function (){
-        layer.tips($(this).attr('data-title'), $(this));
+        tips = layer.tips($(this).attr('data-title'), $(this), {time:0});
+    }).mouseout(function (){
+        layer.close(tips);
     });
     $('table th input:checkbox').on('click', function () {
         let that = this;

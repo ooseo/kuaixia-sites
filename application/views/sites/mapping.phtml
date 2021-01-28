@@ -131,11 +131,16 @@
     </div>
 </div>
 <script>
+    let tips = 0;
     $('.keyword_instructions').mouseenter(function (){
-        layer.tips($(this).attr('data-keyword'), $(this));
+        tips = layer.tips($(this).attr('data-keyword'), $(this), {time:0});
+    }).mouseout(function (){
+        layer.close(tips);
     });
     $('.url_instructions').mouseenter(function (){
-        layer.tips($(this).attr('data-url'), $(this));
+        tips = layer.tips($(this).attr('data-url'), $(this), {time:0});
+    }).mouseout(function (){
+        layer.close(tips);
     });
     $('table th input:checkbox').on('click', function () {
         let that = this;
