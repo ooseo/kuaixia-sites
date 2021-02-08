@@ -79,9 +79,15 @@
                                     </button>
                                 </div>
                                 <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-pink cache" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                        删除缓存
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
                                     <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
                                         <i class="ace-icon fa fa-trash bigger-120"></i>
-                                        删除
+                                        删除站点
                                     </button>
                                 </div>
                             </td>
@@ -95,6 +101,10 @@
             <button class="btn btn-sm btn-success pull-left batchKeyword" data-dismiss="modal">
                 <i class="ace-icon fa fa-refresh"></i>
                 重置核心词
+            </button>
+            <button class="btn btn-sm btn-pink pull-left batchCache" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                删除缓存
             </button>
             <button class="btn btn-sm btn-danger pull-left batchDelete" data-dismiss="modal">
                 <i class="ace-icon fa fa-trash"></i>
@@ -162,7 +172,19 @@
             $(this).closest('tr').toggleClass('selected');
         });
     });
-
+    $(".cache").on("click", function(){
+        let id = $(this).attr('data-id');
+        let domain = $(this).attr('data-domain');
+        layer.confirm("你确认删除站点: " + domain + " 的缓存吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/cache', {id:id}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
     $(".edit").on("click", function(){
         clearModal($('.modal-body'));
         let data = $.parseJSON($(this).attr('data-p'));
@@ -181,7 +203,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -204,7 +226,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -224,7 +246,29 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+    $(".batchCache").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        let msg;
+        if(!ids){
+            msg = "你确认删除所有站点的首页缓存吗？";
+            ids = '0';
+        }else{
+            let lid = ids.split(',').length;
+            msg = "你确认删除 " + lid + " 个站点的首页缓存吗？"
+        }
+        layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/sites/cache', {id:ids}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -240,7 +284,7 @@
             if(res.code !== 0){
                 layer.msg(res.message, {time:3000});
             }else{
-                layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                layer.msg(res.message, {time:1000, end:function (){location.reload();}});
             }
         });
     }

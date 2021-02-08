@@ -31,7 +31,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true">
-                                    <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    <i class="bigger-110 ace-icon fa fa-angle-down" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
                                     &nbsp;免责声明
                                 </a>
                             </h4>
@@ -107,7 +107,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false">
-                                    <i class="bigger-110 ace-icon fa fa-angle-down" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
                                     &nbsp;如何开始
                                 </a>
                             </h4>
@@ -135,6 +135,43 @@
                                         <li>
                                             <i class="ace-icon fa fa-check bigger-110 green"></i>
                                             # 5 自动化：在任务管理中配置自动采集目标站，小指数词周期和自动更新缓存周期
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false">
+                                    <i class="bigger-110 ace-icon fa fa-angle-right" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                    &nbsp;计划任务
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseFour" aria-expanded="false" style="height: 0px;">
+                            <div class="panel-body">
+                                <div class="col-xs-12">
+                                    <ul class="list-unstyled spaced">
+                                        <li>
+                                            在宝塔计划任务中添加<strong style="color:red"> 访问类型任务</strong>，访问周期根据需要自行调整
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 1 自动清理缓存: http://www.yourdomain.com/api/cleanCache 三天一次
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 2 自动更新目标站：http://www.yourdomain.com/api/updateTarget 三天一次
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 3 自动清理报表数据：http://www.yourdomain.com/api/cleanReport 三天一次
+                                        </li>
+                                        <li>
+                                            <i class="ace-icon fa fa-check bigger-110 green"></i>
+                                            # 4 自动检测站点核心词：http://www.yourdomain.com/api/checkWord 五天一次
                                         </li>
                                     </ul>
                                 </div>

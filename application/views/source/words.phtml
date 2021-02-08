@@ -82,6 +82,12 @@
                             <td><?=$item['created_at']?></td>
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
+                                    <button class="btn btn-xs btn-info download" data-id="<?=$item['id']?>" data-name="<?=$item['name']?>" >
+                                        <i class="ace-icon fa fa-download bigger-120"></i>
+                                        下载
+                                    </button>
+                                </div>
+                                <div class="hidden-sm hidden-xs btn-group">
                                     <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-name="<?=$item['name']?>" >
                                         <i class="ace-icon fa fa-trash bigger-120"></i>
                                         删除
@@ -120,6 +126,11 @@
         });
     });
 
+    $(".download").on("click", function(){
+        let id = $(this).attr('data-id');
+        location.href = '/source/download?id=' + id;
+    });
+
     $(".delete").on("click", function(){
         let id = $(this).attr('data-id');
         let name = $(this).attr('data-name');
@@ -128,7 +139,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -146,7 +157,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })

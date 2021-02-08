@@ -75,6 +75,10 @@
             </div>
         </div>
         <div class="modal-footer no-margin-top">
+            <button class="btn btn-sm btn-danger pull-left delete" data-dismiss="modal">
+                <i class="ace-icon fa fa-trash"></i>
+                清理数据
+            </button>
             <ul class="pagination pull-right no-margin">
                 <?=$page ?? "";?>
             </ul>
@@ -96,6 +100,18 @@
     }).mouseout(function (){
         layer.close(tips);
     });
+
+    $(".delete").on("click", function(){
+        layer.confirm("你确认清理报表数据吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.post('/report/cleanData', {}, function(res){
+                if(res.code !== 0){
+                    layer.msg(res.message, {time:3000});
+                }else{
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+                }
+            });
+        })
+    })
 
     // tips 超出的问题
     function slice(str){

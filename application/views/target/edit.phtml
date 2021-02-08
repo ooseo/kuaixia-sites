@@ -59,12 +59,11 @@
         let id = $("#id").val();
         let content = $("#content").val();
         $.post('/target/content', {id:id,content:content}, function(res){
-            layer.open({
-                content: res.message,
-                type: 6,
-                time: 3
-            });
-            setTimeout(function(){location.reload();}, 2000);
+            if(res.code !== 0){
+                layer.msg(res.message, {time:3000});
+            }else{
+                layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+            }
         });
     });
 </script>

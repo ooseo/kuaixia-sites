@@ -64,10 +64,10 @@
                                 <span class="lbl"></span>
                             </label>
                         </th>
-                        <th class="center">ID</th>
-                        <th class="center">类型</th>
+                        <th class="center" style="width: 100px">ID</th>
+                        <th class="center" style="width: 150px">类型</th>
                         <th class="center">值</th>
-                        <th class="center">操作</th>
+                        <th class="center" style="width: 150px">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -211,7 +211,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             }
         })
@@ -239,7 +239,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -259,7 +259,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -284,7 +284,7 @@
             dataType: 'json',//这里是返回类型，一般是json,text等
             clearForm: true,//提交后是否清空表单数据
             success: function(res) { //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                layer.msg(res.message, {time:1000, end:function (){location.reload();}});
             }
         });
     }

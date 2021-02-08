@@ -188,6 +188,12 @@
                             </div>
                         </div>
                         <div class="row-fluid">
+                            <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {area1}: </label>
+                            <div class="col-sm-9">
+                                <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">随机地域(数字可以任意更换相同数字即相同内容)</span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
                             <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> {other1}: </label>
                             <div class="col-sm-9">
                                 <span class="col-sm-12" style="margin-top:20px; margin-left:12px;">随机核心词(数字可以任意更换相同数字即相同内容)</span>
@@ -248,9 +254,9 @@
             dataType: 'json',
             success: function(res){
                 if(res.code !== 0){
-                    layer.msg(res.message, {time:5000});
+                    layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             }
         });

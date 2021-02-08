@@ -113,6 +113,10 @@
                 <i class="ace-icon fa fa-plus"></i>
                 添加目标站
             </button>
+            <button class="btn btn-sm btn-primary pull-left batchCollect" data-dismiss="modal">
+                <i class="ace-icon fa fa-cloud-download"></i>
+                批量采集
+            </button>
             <button class="btn btn-sm btn-pink pull-left batchSource" data-dismiss="modal">
                 <i class="ace-icon fa fa-folder"></i>
                 清理资源
@@ -182,7 +186,7 @@
             if(res.code !== 0){
                 layer.msg(res.message, {time:3000});
             }else{
-                layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                layer.msg(res.message, {time:1000, end:function (){location.reload();}});
             }
         });
     }
@@ -204,7 +208,43 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+                }
+            });
+        })
+    });
+
+    $(".batchCollect").on("click", function(){
+        let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).val();
+        }).get().join(",");
+        let msg;
+        if(!ids){
+            msg = "确认采集所有目标站点吗？时间有点长...";
+            ids = '0';
+        }else{
+            let lid = ids.split(',').length;
+            msg = "您确认采集 " + lid + " 个目标站点吗？"
+        }
+        let confirm ='', index ='';
+        confirm = layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.ajax({
+                type: "post",
+                url: "/target/collect",
+                data: {id:ids},
+                beforeSend:function (){
+                    layer.close(confirm);
+                    index = layer.load(1, {
+                        shade: [0.1,'#fff'] //0.1透明度的白色背景
+                    });
+                },
+                success:function(res){
+                    if(res.code !== 0){
+                        layer.msg(res.message, {time:3000});
+                    }else{
+                        layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    }
+                    layer.close(index);
                 }
             });
         })
@@ -218,7 +258,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000, end:function (){location.href="/sites/mapping?url=" + res.data.url;}});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -237,7 +277,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000, end:function (){location.href="/sites/mapping?url=" + res.data.url;}});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })
@@ -256,7 +296,7 @@
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             });
         })

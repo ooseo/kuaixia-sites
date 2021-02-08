@@ -88,9 +88,9 @@
             dataType: 'json',
             success: function(res){
                 if(res.code !== 0){
-                    layer.msg(res.message, {time:5000});
+                    layer.msg(res.message, {time:3000});
                 }else{
-                    layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                 }
             }
         });
