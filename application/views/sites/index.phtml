@@ -56,12 +56,12 @@
                         <tr class="center">
                             <td>
                                 <label class="pos-rel">
-                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-host="<?= $item['host']?>" data-status="<?= $item['status']?>" class="ace"/>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
                             <td><?=$item['id']?></td>
-                            <td><a href="http://<?=$item['domain']?>" class="domain_instructions" data-domain="<?=$item['domain']?>" target="_blank"><?=mb_strlen($item['domain'])>15 ? (mb_substr($item['domain'], 0, 15) . '...') : $item['domain']?></a></td>
+                            <td><a href="http://<?=$item['host']?>" class="host_instructions" data-host="<?=$item['host']?>" target="_blank"><?=mb_strlen($item['host'])>15 ? (mb_substr($item['host'], 0, 15) . '...') : $item['host']?></a></td>
                             <td><?=$item['name']?></td>
                             <td><?=$item['keyword']?></td>
                             <td class="hidden-480 center">
@@ -79,13 +79,13 @@
                                     </button>
                                 </div>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-pink cache" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                    <button class="btn btn-xs btn-pink cache" data-id="<?=$item['id']?>" data-host="<?=$item['host']?>">
                                         <i class="ace-icon fa fa-trash bigger-120"></i>
                                         删除缓存
                                     </button>
                                 </div>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-host="<?=$item['host']?>">
                                         <i class="ace-icon fa fa-trash bigger-120"></i>
                                         删除站点
                                     </button>
@@ -101,6 +101,10 @@
             <button class="btn btn-sm btn-success pull-left batchKeyword" data-dismiss="modal">
                 <i class="ace-icon fa fa-refresh"></i>
                 重置核心词
+            </button>
+            <button class="btn btn-sm btn-info pull-left open" data-dismiss="modal">
+                <i class="ace-icon fa fa-share"></i>
+                批量打开
             </button>
             <button class="btn btn-sm btn-pink pull-left batchCache" data-dismiss="modal">
                 <i class="ace-icon fa fa-trash"></i>
@@ -131,7 +135,7 @@
                         <div class="row-fluid">
                             <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> 站点域名: </label>
                             <div class="col-sm-9">
-                                <input type="text" id="domain" name="domain" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" disabled/>
+                                <input type="text" id="host" name="host" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" disabled/>
                             </div>
                         </div>
                         <div class="row-fluid">
@@ -159,8 +163,8 @@
 
 <script>
     let tips = 0;
-    $('.domain_instructions').mouseenter(function (){
-        tips = layer.tips($(this).attr('data-domain'), $(this), {time:0});
+    $('.host_instructions').mouseenter(function (){
+        tips = layer.tips($(this).attr('data-host'), $(this), {time:0});
     }).mouseout(function (){
         layer.close(tips);
     });
@@ -172,10 +176,23 @@
             $(this).closest('tr').toggleClass('selected');
         });
     });
+
+    $('.open').on('click', function(){
+        let hosts = $("input:checkbox[name='id']:checked").map(function (index, ele) {
+            return $(ele).attr('data-host');
+        });
+        if (!hosts.length) {
+            layer.msg("请选择需要操作的站点");
+            return false;
+        }
+        for(let i=0;i< hosts.length;i++ ){
+            window.open('http://' + hosts[i]);
+        }
+    });
     $(".cache").on("click", function(){
         let id = $(this).attr('data-id');
-        let domain = $(this).attr('data-domain');
-        layer.confirm("你确认删除站点: " + domain + " 的缓存吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+        let host = $(this).attr('data-host');
+        layer.confirm("你确认删除站点: " + host + " 的缓存吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
             $.post('/sites/cache', {id:id}, function(res){
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
@@ -189,16 +206,16 @@
         clearModal($('.modal-body'));
         let data = $.parseJSON($(this).attr('data-p'));
         $("#id").val(data.id);
-        $("#domain").val(data.domain);
+        $("#host").val(data.host);
         $("#name").val(data.name);
         $("#keyword").val(data.keyword);
         $(".modal-title").html('编辑站点');
         $("#siteModal").modal("show");
     });
     $(".delete").on("click", function(){
-        let domain = $(this).attr('data-domain');
+        let host = $(this).attr('data-host');
         let id = $(this).attr('data-id');
-        layer.confirm("你确认删除此站点: " + domain + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+        layer.confirm("你确认删除此站点: " + host + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
             $.post('/sites/delete', {id:id}, function(res){
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000});
@@ -276,11 +293,11 @@
 
     function add() {
         let id = $("#id").val();
-        let domain = $("#domain").val();
+        let host = $("#host").val();
         let name = $("#name").val();
         let keyword = $("#keyword").val();
         $("#siteModal").modal("hide");
-        $.post('/sites/add', {id:id, domain:domain, name:name, keyword:keyword}, function(res){
+        $.post('/sites/add', {id:id, host:host, name:name, keyword:keyword}, function(res){
             if(res.code !== 0){
                 layer.msg(res.message, {time:3000});
             }else{

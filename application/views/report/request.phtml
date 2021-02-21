@@ -53,6 +53,7 @@
                     <tr>
                         <th class="center">访问域名</th>
                         <th class="center">UA</th>
+                        <th class="center">URI</th>
                         <th class="center">来源IP</th>
                         <th class="center">蜘蛛类型</th>
                         <th class="center">访问时间</th>
@@ -61,9 +62,18 @@
                     <tbody>
                     <?php foreach ($items ?? [] as $k=>$item):?>
                         <tr class="center">
-                            <td><?=$item['host']?></td>
-                            <td><a href="javascript:void(0)" class="ua_instructions" data-ua="<?= $item['ua']?>"><?= mb_strlen($item['ua']) > 60 ? mb_substr($item['ua'], 0, 60) . '...' : $item['ua']?></a></td>
-                            <td><?=$item['ip']?></td>
+                            <td><a href="http://<?=$item['host']?>" target="_blank"><?=$item['host']?></a></td>
+                            <td><a href="javascript:void(0)" class="ua_instructions" data-ua="<?= $item['ua']?>"><?= mb_strlen($item['ua']) > 30 ? mb_substr($item['ua'], 0, 30) . '...' : $item['ua']?></a></td>
+                            <td><?=$item['uri']?></td>
+                            <?php
+                                if(empty($item['spider_type'])){
+                                    $ip_group = explode('.', $item['ip']);
+                                    $ip = $ip_group[0] .'.'. $ip_group[1] .'.'. '*' .'.'. '*';
+                                }else{
+                                    $ip = $item['ip'];
+                                }
+                            ?>
+                            <td><a href="javascript:void(0)" class="ip_instructions" data-ip="<?= $item['ip']?>"><?=$ip?></a></td>
                             <td>
                                 <?= $item['spider_type'] ? ($item['is_spider_ip'] ? \App\Models\Dao\Spider::$spider_type_mapping[$item['spider_type']] : '<span class="red spider_instructions">' . \App\Models\Dao\Spider::$spider_type_mapping[$item['spider_type']]. '</span>')  : '非蜘蛛访问' ?>
                             </td>
@@ -91,6 +101,12 @@
     $('.ua_instructions').mouseenter(function (){
         let ua = slice($(this).attr('data-ua'))
         tips = layer.tips(ua, $(this), {tips:[4,'#25a7a4'],time:0});
+    }).mouseout(function (){
+        layer.close(tips);
+    });
+    $('.ip_instructions').mouseenter(function (){
+        let ip = slice($(this).attr('data-ip'))
+        tips = layer.tips(ip, $(this), {tips:[2,'#25a7a4'],time:0});
     }).mouseout(function (){
         layer.close(tips);
     });

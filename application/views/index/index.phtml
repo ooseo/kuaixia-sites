@@ -155,19 +155,19 @@
                                 <div class="col-xs-12">
                                     <ul class="list-unstyled spaced">
                                         <li>
-                                            在宝塔计划任务中添加<strong style="color:red"> 访问类型任务</strong>，访问周期根据需要自行调整
+                                            在宝塔计划任务中添加<strong style="color:red"> shell脚本类型</strong>，访问周期每分钟执行
                                         </li>
                                         <li>
                                             <i class="ace-icon fa fa-check bigger-110 green"></i>
-                                            # 1 自动清理缓存: http://www.yourdomain.com/api/cleanCache 三天一次
+                                            # 1 自动清理缓存: php /www/wwwroot/www.youdomain.com/dafeiji-sites/public/cli.php Auto action=report times=259200
                                         </li>
                                         <li>
                                             <i class="ace-icon fa fa-check bigger-110 green"></i>
-                                            # 2 自动更新目标站：http://www.yourdomain.com/api/updateTarget 三天一次
+                                            # 2 自动更新目标站：php /www/wwwroot/www.youdomain.com/dafeiji-sites/public/cli.php Auto action=target times=259200
                                         </li>
                                         <li>
                                             <i class="ace-icon fa fa-check bigger-110 green"></i>
-                                            # 3 自动清理报表数据：http://www.yourdomain.com/api/cleanReport 三天一次
+                                            # 3 自动清理报表数据：php /www/wwwroot/www.youdomain.com/dafeiji-sites/public/cli.php Auto action=report times=10800
                                         </li>
                                         <li>
                                             <i class="ace-icon fa fa-check bigger-110 green"></i>

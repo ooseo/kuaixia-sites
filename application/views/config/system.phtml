@@ -12,6 +12,36 @@
         <form class="form-horizontal" method="post" action="">
             <input name="id" type="hidden" class="ace"   value="<?= $item['id'] ?? ''?>" />
             <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 限制所有访问 </label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="close_sites" type="radio" class="ace"  <?php echo !empty($item['close_sites']) &&  $item['close_sites'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="close_sites" type="radio" class="ace" <?php echo empty($item['close_sites']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"> 限制POST请求 </label>
+                <div class="col-sm-9">
+                    <div class="radio">
+                        <label>
+                            <input name="close_post" type="radio" class="ace"  <?php echo !empty($item['close_post']) &&  $item['close_post'] == 1 ? 'checked': ''?> value="1" />
+                            <span class="lbl"> 开启</span>
+                        </label>
+                        <label>
+                            <input name="close_post" type="radio" class="ace" <?php echo empty($item['close_post']) ? 'checked': ''?> value="0" />
+                            <span class="lbl"> 关闭</span>
+                        </label>
+                    </div>
+                </div>
+            </div><div class="space-4"></div>
+            <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right"> 检查蜘蛛UA <span class="red">*</span></label>
                 <div class="col-sm-9">
                     <div class="radio">
@@ -44,51 +74,9 @@
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 自动更新目标站 <span class="red">*</span></label>
+                <label class="col-sm-3 control-label no-padding-right"> 限制URI长度 </label>
                 <div class="col-sm-6">
-                    <div class="radio">
-                        <label>
-                            <input name="auto_update" type="radio" class="ace"  <?php echo !empty($item['auto_update']) &&  $item['auto_update'] == 1 ? 'checked': ''?> value="1" />
-                            <span class="lbl"> 开启</span>
-                        </label>
-                        <label>
-                            <input name="auto_update" type="radio" class="ace" <?php echo empty($item['auto_update']) ? 'checked': ''?> value="0" />
-                            <span class="lbl"> 关闭</span>
-                        </label>
-                        <label class="ace" style="margin-left: 10px;"><i class="auto_instructions ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
-                    </div>
-                </div>
-            </div><div class="space-4"></div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 自动清理缓存 <span class="red">*</span></label>
-                <div class="col-sm-6">
-                    <div class="radio">
-                        <label>
-                            <input name="auto_clean" type="radio" class="ace"  <?php echo !empty($item['auto_clean']) &&  $item['auto_clean'] == 1 ? 'checked': ''?> value="1" />
-                            <span class="lbl"> 开启</span>
-                        </label>
-                        <label>
-                            <input name="auto_clean" type="radio" class="ace" <?php echo empty($item['auto_clean']) ? 'checked': ''?> value="0" />
-                            <span class="lbl"> 关闭</span>
-                        </label>
-                        <label class="ace" style="margin-left: 10px;"><i class="auto_instructions ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
-                    </div>
-                </div>
-            </div><div class="space-4"></div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 自动检查核心词 <span class="red">*</span></label>
-                <div class="col-sm-6">
-                    <div class="radio">
-                        <label>
-                            <input name="auto_check" type="radio" class="ace"  <?php echo !empty($item['auto_check']) &&  $item['auto_check'] == 1 ? 'checked': ''?> value="1" />
-                            <span class="lbl"> 开启</span>
-                        </label>
-                        <label>
-                            <input name="auto_check" type="radio" class="ace" <?php echo empty($item['auto_check']) ? 'checked': ''?> value="0" />
-                            <span class="lbl"> 关闭</span>
-                        </label>
-                        <label class="ace" style="margin-left: 10px;"><i class="auto_instructions ace-icon fa fa-exclamation-triangle red bigger-130"></i></label>
-                    </div>
+                    <input class="col-sm-6" type="text" name="uri_length" value="<?=$item['uri_length'] ?? ''?>" placeholder="允许最长的访问地址路径长度" />
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
@@ -118,9 +106,9 @@
                 </div>
             </div><div class="space-4"></div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right"> 统计代码 </label>
+                <label class="col-sm-3 control-label no-padding-right"> IP限制 </label>
                 <div class="col-sm-9">
-                    <textarea rows="8" type="text" name="js_coding" class="col-sm-9" placeholder="统计代码或其他JS代码"><?=$item['js_coding'] ?? ''?></textarea>
+                    <textarea rows="8" type="text" name="close_ips" class="col-sm-9" placeholder="一行一个，后两位支持匹配（192.168.*.*）"><?=$item['close_ips'] ?? ''?></textarea>
                 </div>
             </div><div class="space-4"></div>
             <div class="clearfix form-actions">
@@ -146,30 +134,25 @@
     }).mouseout(function (){
         layer.close(tips);
     });
-    $('.auto_instructions').mouseenter(function (){
-        tips = layer.tips('生效需要配置计划任务', $(this), {time:0});
-    }).mouseout(function (){
-        layer.close(tips);
-    });
+
     $('.check_instructions').mouseenter(function (){
         tips = layer.tips('非法请求跳转错误页面', $(this), {time:0});
     }).mouseout(function (){
         layer.close(tips);
     });
-
     $(".commit").on("click", function(){
         let data = {};
         data.id =  $('input[name="id"]').val();
         data.check_spider_ua =  $('input[name="check_spider_ua"]:checked').val();
         data.check_spider_ip =  $('input[name="check_spider_ip"]:checked').val();
-        data.auto_update =  $('input[name="auto_update"]:checked').val();
-        data.auto_clean =  $('input[name="auto_clean"]:checked').val();
-        data.auto_check =  $('input[name="auto_check"]:checked').val();
+        data.close_sites =  $('input[name="close_sites"]:checked').val();
+        data.close_post =  $('input[name="close_post"]:checked').val();
+        data.uri_length =  $('input[name="uri_length"]').val();
         data.pc_landing =  $('input[name="pc_landing"]').val();
         data.mobile_landing =  $('input[name="mobile_landing"]').val();
         data.error_page =  Base.encode($('textarea[name="error_page"]').val());
         data.landing_page =  Base.encode($('textarea[name="landing_page"]').val());
-        data.js_coding =  Base.encode($('textarea[name="js_coding"]').val());
+        data.close_ips = $('textarea[name="close_ips"]').val();
         $.ajax({
             type: 'POST',
             url: '/config/system',

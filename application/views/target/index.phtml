@@ -69,7 +69,7 @@
                                 </label>
                             </td>
                             <td><?=$item['id']?></td>
-                            <td><a href="<?=$item['url']?>" target="_blank"><?=$item['url']?></a></td>
+                            <td><a href="<?=$item['scheme'] . '://' . $item['host']?>" target="_blank"><?=$item['host']?></a></td>
                             <td><span class="title_instructions" data-title="<?=$item['title']?>"><?=mb_strlen($item['title']) > 10 ? mb_substr($item['title'], 0, 10) . '...' : $item['title'] ?></span></td>
                             <td><?=$item['encoding']?></td>
                             <td>
@@ -90,13 +90,13 @@
                                     </button>
                                 </div>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button  class="btn btn-xs btn-primary collect" data-id="<?=$item['id']?>"  data-url="<?=$item['url']?>">
+                                    <button  class="btn btn-xs btn-primary collect" data-id="<?=$item['id']?>"  data-host="<?=$item['host']?>">
                                         <i class="ace-icon fa fa-cloud-download bigger-120"></i>
                                         采集
                                     </button>
                                 </div>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-url="<?=$item['url']?>" >
+                                    <button class="btn btn-xs btn-danger delete" data-id="<?=$item['id']?>" data-host="<?=$item['host']?>" >
                                         <i class="ace-icon fa fa-trash bigger-120"></i>
                                         删除
                                     </button>
@@ -202,13 +202,18 @@
 
     $(".collect").on("click", function(){
         let id = $(this).attr('data-id');
-        let url = $(this).attr('data-url');
-        layer.confirm("采集将会更新此站点: " + url + " 请确认", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
-            $.post('/target/collect', {id:id}, function(res){
-                if(res.code !== 0){
-                    layer.msg(res.message, {time:3000});
-                }else{
-                    layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+        let host = $(this).attr('data-host');
+        layer.confirm("您确认采集: " + host + " 吗", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+            $.ajax({
+                type: "post",
+                url: "/target/collect",
+                data: {id:id},
+                success:function(res){
+                    if(res.code !== 0){
+                        layer.msg(res.message, {time:3000});
+                    }else{
+                        layer.msg(res.message, {time:1000, end:function (){location.reload();}});
+                    }
                 }
             });
         })
@@ -218,31 +223,22 @@
         let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
             return $(ele).val();
         }).get().join(",");
-        let msg;
-        if(!ids){
-            msg = "确认采集所有目标站点吗？时间有点长...";
-            ids = '0';
-        }else{
-            let lid = ids.split(',').length;
-            msg = "您确认采集 " + lid + " 个目标站点吗？"
+        if (!ids) {
+            layer.msg('请选择需要操作的目标站');
+            return false;
         }
+        let lid = ids.split(',').length;
         let confirm ='', index ='';
-        confirm = layer.confirm(msg, {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+        layer.confirm("您确认采集 " + lid + " 个目标站点吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
             $.ajax({
                 type: "post",
                 url: "/target/collect",
                 data: {id:ids},
-                beforeSend:function (){
-                    layer.close(confirm);
-                    index = layer.load(1, {
-                        shade: [0.1,'#fff'] //0.1透明度的白色背景
-                    });
-                },
                 success:function(res){
                     if(res.code !== 0){
                         layer.msg(res.message, {time:3000});
                     }else{
-                        layer.msg(res.message, {time:2000, end:function (){location.reload();}});
+                        layer.msg(res.message, {time:1000, end:function (){location.reload();}});
                     }
                     layer.close(index);
                 }

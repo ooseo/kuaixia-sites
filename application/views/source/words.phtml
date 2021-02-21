@@ -75,8 +75,8 @@
                                 </label>
                             </td>
                             <td><?=$item['id']?></td>
-                            <td><?=$item['name']?></td>
-                            <td><?=$item['origin_name']?></td>
+                            <td><?= mb_strlen($item['name']) > 20 ? mb_substr($item['name'], 0, 20) . '...' : $item['name']?></td>
+                            <td><?= mb_strlen($item['origin_name']) > 20 ? mb_substr($item['origin_name'], 0, 20) . '...' : $item['origin_name']?></td>
                             <td><?= mb_strlen($item['path']) > 20 ? mb_substr($item['path'], 0, 20) . '...' : $item['path']?></td>
                             <td><?=$item['count']?></td>
                             <td><?=$item['created_at']?></td>

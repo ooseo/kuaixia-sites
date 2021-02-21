@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right">站点域名 <span class="red">*</span></label>
                 <div class="col-sm-9">
-                    <textarea rows="5" type="text" name="domains" class="col-sm-6"></textarea>
+                    <textarea rows="5" type="text" name="hosts" class="col-sm-6"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -50,12 +50,12 @@
 </div>
 <script>
     $(".commit").on("click", function(){
-        let domains = $('textarea').val();
-        if(domains === ''){
+        let hosts = $('textarea').val();
+        if(hosts === ''){
             layer.msg('批量建站域名不能为空');
             return false;
         }
-        $.post('/sites/batch', {domains:domains}, function(res){
+        $.post('/sites/batch', {hosts:hosts}, function(res){
             if(res.code !== 0){
                 layer.msg(res.message, {time:3000});
             }else{

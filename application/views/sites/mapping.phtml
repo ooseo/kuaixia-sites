@@ -76,19 +76,19 @@
                         <tr class="center">
                             <td>
                                 <label class="pos-rel">
-                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-url="http://<?= $item['domain']?>" data-status="<?= $item['status']?>" class="ace"/>
+                                    <input type="checkbox" name="id" value="<?= $item['id']?>" data-url="http://<?= $item['host']?>" data-status="<?= $item['status']?>" class="ace"/>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
                             <td><?=$item['id']?></td>
-                            <td><a href="http://<?=$item['domain']?>" target="_blank"><?=$item['domain']?></a></td>
+                            <td><a href="http://<?=$item['host']?>" target="_blank"><?=$item['host']?></a></td>
                             <td><span class="keyword_instructions" data-keyword="<?=$item['keyword']?>"><?=mb_strlen($item['keyword']) > 10 ? mb_substr($item['keyword'], 0, 10) . '...' : $item['keyword'] ?></span></td>
-                            <td><a href="<?=$item['url']?>" class="url_instructions" data-url="<?=$item['url']?>" target="_blank"><?=mb_strlen($item['url']) > 25 ? mb_substr($item['url'], 0, 25) . '...' : $item['url'] ?></a></td>
+                            <td><a href="<?=$item['scheme'] . '://' . $item['target_host']?>" class="host_instructions" data-host="<?=$item['target_host']?>" target="_blank"><?=mb_strlen($item['target_host']) > 25 ? mb_substr($item['target_host'], 0, 25) . '...' : $item['target_host'] ?></a></td>
                             <td><?=$item['encoding']?></td>
                             <td><?=$item['mapping_at']?></td>
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-primary edit" data-id="<?=$item['id']?>" data-domain="<?=$item['domain']?>">
+                                    <button class="btn btn-xs btn-primary edit" data-id="<?=$item['id']?>" data-target_host="<?=$item['target_host']?>">
                                         <i class="ace-icon fa fa-edit bigger-120"></i>
                                         编辑
                                     </button>
@@ -105,10 +105,7 @@
                 <i class="ace-icon fa fa-exchange"></i>
                 批量映射
             </button>
-            <button class="btn btn-sm btn-success pull-left open" data-dismiss="modal">
-                <i class="ace-icon fa fa-share"></i>
-                批量打开
-            </button>
+
             <ul class="pagination pull-right no-margin">
                 <?=$page ?? "";?>
             </ul>
@@ -130,15 +127,7 @@
                         <div class="row-fluid">
                             <label class="col-sm-3 control-label no-padding-right" style="margin-top:10px;"> 目标站地址: </label>
                             <div class="col-sm-9">
-                                <input type="text" id="url" name="url" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="row-fluid">
-                            <label class="col-sm-2 control-label no-padding-right"></label>
-                            <div class="col-sm-10">
-                                <label style="color: red;margin-top:10px; margin-left:12px;">  注意：目标站地址必须携带协议（https:// 或 http://） </label>
+                                <input type="text" id="target_host" name="target_host" class="col-sm-6" style="margin-top:10px; margin-left:12px;" value="" />
                             </div>
                         </div>
                     </div>
@@ -159,8 +148,8 @@
     }).mouseout(function (){
         layer.close(tips);
     });
-    $('.url_instructions').mouseenter(function (){
-        tips = layer.tips($(this).attr('data-url'), $(this), {time:0});
+    $('.host_instructions').mouseenter(function (){
+        tips = layer.tips($(this).attr('data-host'), $(this), {time:0});
     }).mouseout(function (){
         layer.close(tips);
     });
@@ -174,22 +163,11 @@
     $(".edit").on("click", function(){
         clearModal($('.modal-body'));
         $("#id").val($(this).attr('data-id'));
-        $("#domain").val($(this).attr('data-domain'));
+        $("#target_host").val($(this).attr('data-target_host'));
         $(".modal-title").html('编辑目标站点');
         $("#siteModal").modal("show");
     });
-    $('.open').on('click', function(){
-        let urls = $("input:checkbox[name='id']:checked").map(function (index, ele) {
-            return $(ele).attr('data-url');
-        });
-        if (!urls.length) {
-            layer.msg("请选择需要操作的站点");
-            return false;
-        }
-        for(let i=0;i< urls.length;i++ ){
-            window.open(urls[i]);
-        }
-    });
+
     $(".batchMapping").on("click", function(){
         let ids = $("input:checkbox[name='id']:checked").map(function (index, ele) {
             return $(ele).val();
@@ -214,13 +192,13 @@
     });
     function add(){
         let id = $("#id").val();
-        let url = $("#url").val();
-        if(!url){
+        let target_host = $("#target_host").val();
+        if(!target_host){
             layer.msg('目标站地址不能为空');
             return false;
         }
         $("#clearModal").modal("hide");
-        $.post('/sites/map', {id:id,url:url}, function(res){
+        $.post('/sites/map', {id:id,target_host:target_host}, function(res){
             if(res.code !== 0){
                 layer.msg(res.message, {time:3000});
             }else{
