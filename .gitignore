@@ -1,5 +1,5 @@
 .DS_Store
-config/application.development.ini
+config/application.product.ini
 composer.lock
 .idea/
 vendor/
