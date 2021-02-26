@@ -248,8 +248,8 @@
 
     $(".delete").on("click", function(){
         let id = $(this).attr('data-id');
-        let url = $(this).attr('data-url');
-        layer.confirm("你确认删除此站点: " + url + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
+        let host = $(this).attr('data-host');
+        layer.confirm("你确认删除此站点: " + host + " 吗？", {icon: 3, title:'提示', btn:['确认','取消']}, function (){
             $.post('/target/delete', {id:id}, function(res){
                 if(res.code !== 0){
                     layer.msg(res.message, {time:3000, end:function (){location.href="/sites/mapping?url=" + res.data.url;}});

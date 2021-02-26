@@ -34,7 +34,7 @@
                                 <input type="text" name="keyword" value="<?= $conditions['keyword'] ?? '' ?>" placeholder="站点ID/域名" />
                             </label>
                             <label style="display: inline-block;vertical-align: top;margin-right: 10px;">
-                                <input style="width: 250px" type="text" name="url" value="<?= $conditions['url'] ?? '' ?>" placeholder="目标站地址" />
+                                <input style="width: 250px" type="text" name="target_host" value="<?= $conditions['target_host'] ?? '' ?>" placeholder="目标站地址" />
                             </label>
                             <label class="pos-rel" style="margin-top: 7px">
                                 <input type="checkbox" name="wait_mapping" <?php echo !empty($conditions['wait_mapping']) ? 'checked' : '' ?> class="ace">
