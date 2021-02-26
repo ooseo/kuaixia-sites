@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.19-log)
 # Database: dafeiji-sites
-# Generation Time: 2021-02-26 03:43:11 +0000
+# Generation Time: 2021-02-26 04:16:04 +0000
 # ************************************************************
 
 
@@ -35,7 +35,6 @@ CREATE TABLE `copy_config` (
   `inter_template` tinyint(4) NOT NULL,
   `is_inpage_word` tinyint(4) NOT NULL,
   `is_ascii` tinyint(4) NOT NULL,
-  `rand_tdk` tinyint(4) NOT NULL,
   `preg_title` varchar(128) DEFAULT '',
   `preg_keywords` varchar(128) DEFAULT '',
   `preg_description` varchar(256) DEFAULT '',
@@ -66,22 +65,6 @@ CREATE TABLE `report` (
   PRIMARY KEY (`id`),
   KEY `idx_created_at` (`created_at`),
   KEY `idx_host` (`host`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
-# Dump of table safe_config
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `safe_config`;
-
-CREATE TABLE `safe_config` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `close_sites` tinyint(4) NOT NULL DEFAULT '0',
-  `close_post` tinyint(4) NOT NULL DEFAULT '0',
-  `uri_length` int(11) NOT NULL DEFAULT '0',
-  `close_ips` text,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -168,6 +151,15 @@ CREATE TABLE `system_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+LOCK TABLES `system_config` WRITE;
+/*!40000 ALTER TABLE `system_config` DISABLE KEYS */;
+
+INSERT INTO `system_config` (`id`, `close_sites`, `close_post`, `check_spider_ua`, `check_spider_ip`, `pc_landing`, `mobile_landing`, `uri_length`, `error_page`, `landing_page`, `close_ips`, `js_coding`)
+VALUES
+	(1,0,1,0,0,'','',100,'<html>\n    <head>\n        <meta http-equiv=\"Content-Type\" content=\"textml;charset=utf-8\" />\n        <title>域名停靠</title>\n        <meta content=\"域名,万网域名\" name=\"keywords\">\n        <meta content=\"域名,万网域名\" name=\"description\">\n        <script>let s=document.referrer;if(parent.window.opener) parent.window.opener.location=s;</script>\n        <style>body{background-color:#FFFFFF}.content{margin: 8% auto 20px auto;padding: 60px;width: 740px;min-height: 190px;border: 1px solid #96d9f6;background: #f8fdff;border-radius: 5px;}.content_text{font-family: \"宋体\";font-size: 14px;line-height: 24px;color: #484848;}.content_text img{float:left;}.content_text p{float: left;margin: 0 0 0 32px;padding: 0;width: 635px;}</style>\n    </head>\n    <body>\n        <div class=\"content\">\n            <div class=\"content_text\">\n                <img src=\"https://img.alicdn.com/tps/TB1iyqBJVXXXXa8XFXXXXXXXXXX-58-51.png\" width=\"58\" height=\"51\">\n                <p>\n                    <b>提示：该域名已过期，不能正常访问，续费后可恢复使用。</b><br><br>\n                    请您联系您的域名服务商尽快完成续费，以避免域名被删除或被他人注册的风险。<br><br>\n                    1.如果您是万网会员，请登录万网账户，进入会员中心->域名管理->急需续费域名，完成域名续费。<br><br>\n                    2.如果您的域名服务由万网代理商提供，请您联系您的代理商咨询续费事宜。<br><br>\n                    3.{error_msg}\n                </p>\n            </div>\n        </div>\n    </body>\n</html>','<html>\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"textml;charset=utf-8\" />\n    <title>跳转</title>\n    <meta content=\"跳转\" name=\"keywords\">\n    <meta content=\"跳转\" name=\"description\">\n</head>\n<body>\n<h1 style=\"text-align: center;margin-top: 500px\">请等待 <b id=\"val\" style=\"color:red\">4</b> 秒, 网页正在进入中......</h1>\n</body>\n<script>\n    let url = \"{landing_page}\";\n    let valid = document.getElementById(\'val\');\n    let i = 4;\n    sobj = setInterval(function() {\n        i = i - 1;\n        valid.innerHTML = i;\n        if (i <= 0) {\n            clearInterval(sobj);\n            location.href = url;\n        }\n    },1000);\n</script>\n</html>','','<script type=\"text/javascript\" src=\"//js.users.51.la/xxxxx.js\"></script>');
+
+/*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table target
