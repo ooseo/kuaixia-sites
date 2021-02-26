@@ -8,12 +8,7 @@
     "monolog/monolog": "^1.26.0",
     "illuminate/database": "v5.2.43",
     "illuminate/events": "v5.2.43",
-    "illuminate/validation": "v5.2.45",
-    "ext-gd": "*",
-    "ext-curl": "*",
-    "ext-pdo": "*",
-    "ext-json": "*",
-    "ext-simplexml": "*"
+    "illuminate/validation": "v5.2.45"
   },
   "autoload" : {
     "psr-4" : {

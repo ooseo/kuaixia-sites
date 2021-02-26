@@ -1,0 +1,143 @@
+快侠镜像站群安装步骤
+
+
+准备阶段
+
+1 采购服务器
+	配置 8Core 16GMEM 240GSSD 10M
+	系统 Centos7.2 不支持windows
+
+2 解析域名
+	www.zhupi.net (后台域名)
+	20383.cn
+	zhuaishou.com
+	aipaila.com
+	chadomain.com
+
+3 安装宝塔面板和宝塔终端
+
+=========================（略）
+
+安装阶段
+
+1 运行环境搭建
+	nginx 1.16 or 1.18
+	php 7.0 - 7.2
+	mysql 5.6 or 5.7
+	redis 6.0
+
+2 安装PHP扩展和解密扩展
+	fileinfo
+	redis
+	yaf
+	readline
+
+	终端安装safegou解密扩展 （宝塔终端请自行配置）
+	命令前面的 # 符号代表root权限 $ 符号代表 www 权限
+	# cd /root
+	# git clone https://github.com/ooseo/safegou
+
+	确保默认php版本是7.2 （多php版本的用户请注意）
+	php-config 为 /www/server/php/72/bin/php-config
+
+3 运行环境配置
+	切换到www用户
+	注意: 切换不过来是因为www用户默认是禁止登陆的没有指定bash
+	# vim /etc/passwd 修改一下就好了
+	www:x:1000:1000::/home/www:/sbin/nologin
+	改为 www:x:1000:1000::/home/www:/bin/bash
+
+	宝塔中创建网站
+	# su www
+	$ cd /www/wwwroot/www.zhupi.net
+	$ git clone https://github.com/ooseo/kuaixia-sites
+
+	nginx 主要是伪静态和配置文件中静态文件配置
+	配置网站目录
+	伪静态配置(默认的配置)
+	location / {
+  		if (!-e $request_filename) {
+	  		rewrite ^(.*)$ /index.php/$1 last;
+			break;
+		}
+	}
+
+	当注释 fastcgi_param PATH_INFO $path_info; 后的配置
+	location / {
+		if (!-e $request_filename) {
+            rewrite ^(.*)$ /index.php?s=$1 last;
+            break;
+		}
+	}
+
+	配置文件中删除其他静态文件配置
+	location ~ ^/alocal {
+    		root /www/wwwroot/www.yourdomain.com/kuaixia-sites;
+    		error_log /dev/null;
+    		access_log off;
+    		expires 30d;
+	}
+
+	php 主要是禁用函数和 php.ini 中的扩展（yaf和safegou）配置
+	删除禁用函数
+	putenv
+	exec
+	shell_exec
+	proc_open
+
+	php.ini 配置
+	[yaf]
+	yaf.environ = product
+	yaf.use_spl_autoload = 0
+	yaf.use_namespace = 1
+	添加safegou扩展配置
+
+	重启php
+
+4 数据库
+	创建数据库  字符集选择 utf8 或者 utf8mb4
+	导入文件数据库初始化文件 kuaixia-sites-init.sql
+
+	$ mysql -ukuaixia-sites -p  此处kuaixia-sites是用户名
+	$ use kuaixia-sites; 此处kuaixia-sites是数据库名
+	$ source /www/wwwroot/www.zhupi.net/kuaixia-sites/init/kuaixia-sites-init.sql;
+	初始化文件的路径自己要找到
+
+5 项目配置
+
+	终端安装composer.json
+	$ cd /www/wwwroot/www.zhupi.net/kuaixia-sites
+	$ php /usr/bin/composer install
+	目录中会多出一个vendor目录和composer.lock文件
+
+	修改项目配置文件
+	将config目录下面的application.development.ini 重命名为 application.product.ini
+	[development] 改为[product]
+
+	修改数据库配置
+	修改redis配置
+	修改后台访问域名
+	修改授权令牌配置（默认令牌有效期10天）
+
+================================
+
+运行阶段
+
+1 站群配置
+	后台默认账户 admin 密码 qq123321 安装完后自行修改
+
+	宝塔站点域名中添加站群域名
+	*.20383.cn
+        *.zhuaishou.com
+        *.aipaila.com
+        *.chadomain.com
+
+	配置计划任务一般三天执行一次
+
+	php /www/wwwroot/www.zhupi.net/kuaixia-sites/public/cli.php AutoCleanCache
+	php /www/wwwroot/www.zhupi.net/kuaixia-sites/public/cli.php AutoUpdateTarget
+
+	导入的站点数据可以根据自己的业务需求准备
+ 	目标站导入后先要执行采集，可以手动也可以自动
+
+	快侠祝大家顺利使用本系统
