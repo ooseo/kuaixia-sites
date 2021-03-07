@@ -147,7 +147,6 @@ CREATE TABLE `system_config` (
   `error_page` mediumtext COMMENT '错误页面',
   `landing_page` mediumtext COMMENT '跳转页面',
   `close_ips` text,
-  `js_coding` mediumtext COMMENT '其他js代码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
